@@ -80,5 +80,5 @@ cp -r astrbot_plugin_indextts /path/to/AstrBot/data/plugins/
 ---
 
 <p align="center">
-  <sub>这是作者的第一个作品（AI 主力辅助），欢迎各位大佬指导 🎉</sub>
+  <sub>这是作者的第一个作品（AI 主力辅助），欢迎各位大佬指导（QQ:2446548274） 🎉</sub>
 </p>
