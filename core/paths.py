@@ -16,7 +16,7 @@ def user_voice_key(platform_id: str, user_id: str, session_id: str = "") -> str:
     """
 
     identity = (user_id or "").strip() or f"session:{(session_id or '').strip()}"
-    payload = f"{platform_id or 'unknown'}\0{identity}".encode("utf-8")
+    payload = f"{platform_id or 'unknown'}\0{identity}".encode()
     return hashlib.sha256(payload).hexdigest()[:32]
 
 
