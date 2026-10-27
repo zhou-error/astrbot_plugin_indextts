@@ -1,0 +1,92 @@
+{
+  "index_tts_url": {
+    "type": "string",
+    "description": "IndexTTS Gradio 服务地址",
+    "hint": "例如 http://127.0.0.1:7860/；Docker 访问宿主机时可改为 http://host.docker.internal:7860/",
+    "default": "http://127.0.0.1:7860/"
+  },
+  "default_reference_audio": {
+    "type": "string",
+    "description": "默认参考音频路径",
+    "hint": "运行 AstrBot 的主机上的绝对路径；留空则必须由用户通过 /tts_voice 设置个人音色",
+    "default": ""
+  },
+  "auto_capture_voice": {
+    "type": "bool",
+    "description": "自动把用户发送的语音保存为参考音色",
+    "hint": "默认关闭。开启前请确认已向用户说明并取得同意。",
+    "default": false
+  },
+  "auto_tts_enabled": {
+    "type": "bool",
+    "description": "自动将 LLM 回复转为语音的全局默认值",
+    "hint": "每个会话可用 /tts_auto on|off 单独覆盖；未设置参考音频时不会生成语音。",
+    "default": true
+  },
+  "max_auto_tts_length": {
+    "type": "int",
+    "description": "自动 TTS 的最大文本长度",
+    "hint": "超过该长度的 LLM 回复会跳过语音，避免过长生成。",
+    "default": 500,
+    "slider": {
+      "min": 50,
+      "max": 2000,
+      "step": 50
+    }
+  },
+  "infer_mode": {
+    "type": "string",
+    "description": "IndexTTS 推理模式",
+    "default": "批次推理"
+  },
+  "max_text_tokens_per_sentence": {
+    "type": "int",
+    "description": "单句最大文本 token 数",
+    "default": 120
+  },
+  "sentences_bucket_max_size": {
+    "type": "int",
+    "description": "批次推理时的分桶大小",
+    "default": 4
+  },
+  "do_sample": {
+    "type": "bool",
+    "description": "是否使用采样推理",
+    "default": true
+  },
+  "top_p": {
+    "type": "float",
+    "description": "采样 top-p",
+    "default": 0.8
+  },
+  "top_k": {
+    "type": "int",
+    "description": "采样 top-k",
+    "default": 30
+  },
+  "temperature": {
+    "type": "float",
+    "description": "采样温度",
+    "default": 1.0
+  },
+  "length_penalty": {
+    "type": "float",
+    "description": "长度惩罚",
+    "default": 0.0
+  },
+  "num_beams": {
+    "type": "int",
+    "description": "beam search 数量",
+    "default": 3
+  },
+  "repetition_penalty": {
+    "type": "float",
+    "description": "重复惩罚",
+    "default": 10.0
+  },
+  "max_mel_tokens": {
+    "type": "int",
+    "description": "最大 mel token 数",
+    "default": 600
+  }
+}

@@ -1,0 +1,1 @@
+"""AstrBot IndexTTS plugin package."""
