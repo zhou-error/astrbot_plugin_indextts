@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: MIT
 """Audio download, validation and storage helpers.
 
-The security-sensitive rules live here so they can be unit-tested without
-importing AstrBot:
+The security-sensitive rules live here so they can be unit-tested with a
+lightweight AstrBot logger stub:
 
 * only public HTTP(S) URLs are allowed;
 * redirects are rejected rather than followed;
@@ -14,7 +14,6 @@ from __future__ import annotations
 
 import asyncio
 import ipaddress
-import logging
 import os
 import shutil
 import socket
@@ -23,8 +22,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 import httpx
-
-logger = logging.getLogger(__name__)
+from astrbot.api import logger
 
 MAX_AUDIO_BYTES = 10 * 1024 * 1024
 ALLOWED_AUDIO_SUFFIXES = frozenset(

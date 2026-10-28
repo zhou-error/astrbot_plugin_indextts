@@ -4,10 +4,11 @@
 from __future__ import annotations
 
 import json
-import logging
 from collections.abc import MutableMapping
 from pathlib import Path
 from typing import Any
+
+from astrbot.api import logger
 
 DEFAULT_CONFIG: dict[str, Any] = {
     "index_tts_url": "http://127.0.0.1:7860/",
@@ -82,7 +83,6 @@ def merge_legacy_config(
 def migrate_legacy_config(
     config: MutableMapping[str, Any],
     legacy_path: Path,
-    logger: logging.Logger | None = None,
 ) -> bool:
     """Migrate the old ``data/config.json`` into the AstrBot config once.
 
@@ -91,7 +91,6 @@ def migrate_legacy_config(
     values on the next restart.
     """
 
-    log = logger or logging.getLogger(__name__)
     legacy_path = Path(legacy_path)
     if not legacy_path.is_file():
         return False
@@ -99,11 +98,11 @@ def migrate_legacy_config(
     try:
         payload = json.loads(legacy_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
-        log.warning("旧版配置文件无法读取，跳过迁移: %s", legacy_path)
+        logger.warning("旧版配置文件无法读取，跳过迁移: %s", legacy_path)
         return False
 
     if not isinstance(payload, dict):
-        log.warning("旧版配置文件格式不是对象，跳过迁移: %s", legacy_path)
+        logger.warning("旧版配置文件格式不是对象，跳过迁移: %s", legacy_path)
         return False
 
     applied = merge_legacy_config(config, payload)
@@ -112,13 +111,13 @@ def migrate_legacy_config(
         try:
             save()
         except Exception:
-            log.exception("保存迁移后的插件配置失败，旧配置保留在原位")
+            logger.exception("保存迁移后的插件配置失败，旧配置保留在原位")
             return False
 
     try:
         legacy_path.replace(legacy_path.with_name(f"{legacy_path.name}.migrated"))
     except OSError:
-        log.warning("旧版配置文件迁移后重命名失败", exc_info=True)
+        logger.warning("旧版配置文件迁移后重命名失败", exc_info=True)
 
-    log.info("已从旧版 data/config.json 迁移 %d 项配置", len(applied))
+    logger.info("已从旧版 data/config.json 迁移 %d 项配置", len(applied))
     return True

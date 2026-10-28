@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
-"""Unit tests for AstrBot-independent core helpers."""
+"""Unit tests for core helpers."""
 
 from __future__ import annotations
 
@@ -125,8 +125,7 @@ class ConfigTests(unittest.TestCase):
             legacy = Path(temp_dir) / "config.json"
             legacy.write_text("{not-json", encoding="utf-8")
             target = {"top_k": 30}
-            with self.assertLogs("core.config", level="WARNING"):
-                self.assertFalse(migrate_legacy_config(target, legacy))
+            self.assertFalse(migrate_legacy_config(target, legacy))
             self.assertEqual(target["top_k"], 30)
             self.assertTrue(legacy.exists())
 

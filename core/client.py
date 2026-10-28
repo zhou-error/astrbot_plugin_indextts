@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import asyncio
-import logging
 import os
 import shutil
 import time
@@ -13,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 import httpx
+from astrbot.api import logger
 from gradio_client import Client, handle_file
 
 from .audio import MAX_AUDIO_BYTES, looks_like_audio, new_output_path
@@ -43,14 +43,12 @@ class IndexTTSClient:
         output_dir: Path,
         params: dict[str, Any],
         *,
-        logger: logging.Logger | None = None,
         timeout: float = DEFAULT_TTS_TIMEOUT,
         retry_cooldown: float = DEFAULT_RETRY_COOLDOWN,
     ) -> None:
         self._url = (url or "").strip()
         self._output_dir = Path(output_dir)
         self._params = dict(params)
-        self._logger = logger or logging.getLogger(__name__)
         self._timeout = timeout
         self._retry_cooldown = retry_cooldown
         self._client: Client | None = None
@@ -88,7 +86,7 @@ class IndexTTSClient:
             try:
                 await asyncio.to_thread(self._close_sync, client)
             except Exception:
-                self._logger.debug("关闭 IndexTTS 客户端失败", exc_info=True)
+                logger.debug("关闭 IndexTTS 客户端失败", exc_info=True)
 
     async def _ensure_client(self) -> Client:
         if self._closed:
@@ -141,7 +139,7 @@ class IndexTTSClient:
             try:
                 self._close_sync(client)
             except Exception:
-                self._logger.debug("关闭初始化失败的客户端失败", exc_info=True)
+                logger.debug("关闭初始化失败的客户端失败", exc_info=True)
             raise
 
     async def generate(self, text: str, reference_audio: Path) -> Path:

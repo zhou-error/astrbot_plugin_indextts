@@ -56,7 +56,7 @@ class IndexTTSPlugin(Star):
 
         legacy_config = Path(__file__).resolve().parent / "data" / "config.json"
         try:
-            migrate_legacy_config(self.config, legacy_config, logger)
+            migrate_legacy_config(self.config, legacy_config)
         except Exception:
             logger.exception("迁移旧版 data/config.json 失败")
 
@@ -64,7 +64,6 @@ class IndexTTSPlugin(Star):
             url=str(self.config.get("index_tts_url", DEFAULT_CONFIG["index_tts_url"])),
             output_dir=self.output_dir,
             params=self._client_params(),
-            logger=logger,
         )
         self._max_manual_chars = MAX_MANUAL_TTS_CHARS
 
