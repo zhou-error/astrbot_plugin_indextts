@@ -1,7 +1,7 @@
 name: astrbot_plugin_indextts
 author: Moonlit Sapling.
 desc: 基于本地 IndexTTS 的文本转语音插件，支持音色克隆和自动将 LLM 回复转为语音
-version: 2.0.0
+version: 2.0.1
 repo: https://github.com/zhou-error/astrbot_plugin_indextts
 display_name: IndexTTS 语音合成
 short_desc: 本地 IndexTTS 文本转语音与音色克隆
